@@ -33,9 +33,9 @@ const CustomDropdown = ({ options, value, onChange, placeholder = "Select option
   const selectedOption = options.find(option => option.value === value);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {label && (
-        <label className="text-sm font-medium" style={{ color: '#152C5B' }}>
+        <label className="text-sm font-medium bg-gradient-to-r from-slate-800 to-blue-900 bg-clip-text text-transparent">
           {label}
         </label>
       )}
@@ -43,11 +43,7 @@ const CustomDropdown = ({ options, value, onChange, placeholder = "Select option
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:border-transparent text-left flex items-center justify-between text-gray-700"
-          style={{ 
-            focusRingColor: '#3252DF',
-            backgroundColor: '#FFFCFC'
-          }}
+          className="w-full p-3 border border-gray-200/60 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 text-left flex items-center justify-between text-gray-700 bg-white/70 backdrop-blur-sm transition-all duration-300 hover:bg-white/80 shadow-inner"
         >
           <span>{selectedOption ? selectedOption.label : placeholder}</span>
           <svg 
@@ -61,7 +57,7 @@ const CustomDropdown = ({ options, value, onChange, placeholder = "Select option
         </button>
 
         {isOpen && (
-          <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-[9999] w-full mt-2 bg-white/95 backdrop-blur-md border border-gray-200/60 rounded-xl shadow-2xl max-h-60 overflow-auto">
             {options.map((option) => (
               <button
                 key={option.value}

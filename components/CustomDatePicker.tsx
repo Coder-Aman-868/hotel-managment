@@ -40,9 +40,9 @@ const CustomDatePicker = ({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {label && (
-        <label className="text-sm font-medium" style={{ color: '#152C5B' }}>
+        <label className="text-sm font-medium bg-gradient-to-r from-slate-800 to-blue-900 bg-clip-text text-transparent">
           {label}
         </label>
       )}

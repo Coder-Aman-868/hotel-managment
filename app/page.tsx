@@ -1,6 +1,7 @@
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
-import SearchBar from '../components/SearchBar';
+import FixedSearchBar from '../components/FixedSearchBar';
+import BackToTop from '../components/BackToTop';
 import HotelCard from '../components/HotelCard';
 import Footer from '../components/Footer';
 
@@ -116,8 +117,6 @@ export default function Home() {
       <div className="relative z-10 backdrop-blur-sm">
         <Header />
         <HeroSection />
-        <SearchBar />
-      
         {/* Most Picked Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
           {/* Section Background with Blur */}
@@ -159,6 +158,10 @@ export default function Home() {
 
         <Footer />
       </div>
+      
+      {/* Fixed components that appear on scroll */}
+      <FixedSearchBar />
+      <BackToTop />
     </div>
   );
 }

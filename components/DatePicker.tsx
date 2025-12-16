@@ -118,7 +118,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
       {/* Calendar Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 z-50 animate-fade-in">
+        <div className="absolute top-full left-0 mt-2 z-[9999] animate-fade-in">
           <div className="relative">
             {/* Glowing background */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-2xl blur-xl"></div>
