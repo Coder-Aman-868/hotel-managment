@@ -2,7 +2,8 @@ import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import FixedSearchBar from '../components/FixedSearchBar';
 import BackToTop from '../components/BackToTop';
-import HotelCard from '../components/HotelCard';
+import FeaturedHotelsSlider from '../components/FeaturedHotelsSlider';
+import HotelSlider from '../components/HotelSlider';
 import Footer from '../components/Footer';
 
 export default function Home() {
@@ -12,36 +13,31 @@ export default function Home() {
       location: "Jakarta, Indonesia",
       price: 50,
       rating: 4.5,
-      size: "large" as const,
       featured: true
     },
     {
       title: "Ocean Land",
       location: "Bandung, Indonesia", 
       price: 22,
-      rating: 4.8,
-      size: "medium" as const
+      rating: 4.8
     },
     {
       title: "Stark House",
       location: "Malang, Indonesia",
       price: 856,
-      rating: 4.7,
-      size: "medium" as const
+      rating: 4.7
     },
     {
       title: "Vinna Vill",
       location: "Malang, Indonesia",
       price: 62,
-      rating: 4.8,
-      size: "medium" as const
+      rating: 4.8
     },
     {
       title: "Bobox",
       location: "Medan, Indonesia",
       price: 72,
-      rating: 4.3,
-      size: "medium" as const
+      rating: 4.3
     }
   ];
 
@@ -117,44 +113,27 @@ export default function Home() {
       <div className="relative z-10 backdrop-blur-sm">
         <Header />
         <HeroSection />
-        {/* Most Picked Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-          {/* Section Background with Blur */}
-          <div className="absolute inset-0 bg-white/40 backdrop-blur-sm rounded-3xl -mx-4 -my-8"></div>
-          <div className="relative z-10">
-            <h2 className="text-3xl font-semibold mb-12 bg-gradient-to-r from-slate-800 to-blue-900 bg-clip-text text-transparent">Most Picked</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Large featured card */}
-              <div className="lg:row-span-2">
-                <HotelCard {...featuredHotels[0]} />
-              </div>
-              
-              {/* Medium cards */}
-              <div className="grid grid-cols-1 gap-8">
-                <HotelCard {...featuredHotels[1]} />
-                <HotelCard {...featuredHotels[2]} />
-              </div>
-              
-              <div className="grid grid-cols-1 gap-8">
-                <HotelCard {...featuredHotels[3]} />
-                <HotelCard {...featuredHotels[4]} />
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Featured Hotels Slider */}
+        <FeaturedHotelsSlider hotels={featuredHotels} />
 
-        {/* More Hotels Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-          {/* Section Background with Blur */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-blue-50/50 backdrop-blur-sm rounded-3xl -mx-4 -my-8"></div>
-          <div className="relative z-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {moreHotels.map((hotel, index) => (
-                <HotelCard key={index} {...hotel} size="small" />
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* More Hotels Slider */}
+        <HotelSlider 
+          hotels={moreHotels} 
+          title="Discover More Amazing Places"
+          slidesPerView={4}
+          spaceBetween={30}
+          autoplay={true}
+        />
+
+        {/* Premium Collection Slider */}
+        <HotelSlider 
+          hotels={[...moreHotels].reverse()} 
+          title="Premium Collection"
+          slidesPerView={3}
+          spaceBetween={40}
+          autoplay={true}
+          effect="coverflow"
+        />
 
         <Footer />
       </div>

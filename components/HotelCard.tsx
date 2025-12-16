@@ -5,7 +5,7 @@ interface HotelCardProps {
   rating?: number;
   image?: string;
   featured?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  className?: string;
 }
 
 const HotelCard = ({ 
@@ -15,13 +15,8 @@ const HotelCard = ({
   rating = 4.5, 
   image, 
   featured = false,
-  size = 'medium' 
+  className = ""
 }: HotelCardProps) => {
-  const sizeClasses = {
-    small: 'h-56',
-    medium: 'h-72',
-    large: 'h-96'
-  };
 
   const gradients = [
     'from-blue-400 to-blue-600',
@@ -37,9 +32,9 @@ const HotelCard = ({
   const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
 
   return (
-    <div className="bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 group border border-white/20 hover:border-white/40 hover:bg-white/95">
+    <div className={`bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 group border border-white/20 hover:border-white/40 hover:bg-white/95 ${className}`}>
       {/* Image Container */}
-      <div className={`relative ${sizeClasses[size]} overflow-hidden`}>
+      <div className="relative h-64 overflow-hidden">
         {image ? (
           <img 
             src={image} 
