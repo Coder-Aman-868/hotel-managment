@@ -129,42 +129,54 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg border border-gray-100 p-6 ${className}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={() => navigateMonth('prev')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="Previous month"
-        >
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        
-        <h2 className="text-lg font-semibold text-gray-800">
-          {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-        </h2>
-        
-        <button
-          onClick={() => navigateMonth('next')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="Next month"
-        >
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Day headers */}
-      <div className="grid grid-cols-7 gap-1 mb-2">
-        {dayNames.map(day => (
-          <div key={day} className="text-center text-sm font-medium text-gray-500 py-2">
-            {day}
+    <div className={`relative bg-gradient-to-br from-white via-blue-50/30 to-purple-50/20 rounded-2xl shadow-2xl border border-white/20 backdrop-blur-sm p-6 ${className}`}>
+      {/* Glowing orbs background */}
+      <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-r from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-pulse delay-1000"></div>
+      <div className="absolute top-1/2 right-8 w-8 h-8 bg-gradient-to-r from-blue-300/25 to-cyan-300/25 rounded-full blur-md animate-pulse delay-500"></div>
+      
+      {/* Content wrapper */}
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigateMonth('prev')}
+            className="relative p-3 bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400/50 group"
+            aria-label="Previous month"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <svg className="relative w-5 h-5 text-gray-700 group-hover:text-blue-600 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg blur-sm"></div>
+            <h2 className="relative text-lg font-semibold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent px-4 py-2">
+              {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+            </h2>
           </div>
-        ))}
-      </div>
+          
+          <button
+            onClick={() => navigateMonth('next')}
+            className="relative p-3 bg-gradient-to-r from-purple-500/10 to-blue-500/10 hover:from-purple-500/20 hover:to-blue-500/20 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400/50 group"
+            aria-label="Next month"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <svg className="relative w-5 h-5 text-gray-700 group-hover:text-purple-600 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Day headers */}
+        <div className="grid grid-cols-7 gap-1 mb-2">
+          {dayNames.map(day => (
+            <div key={day} className="text-center text-sm font-medium bg-gradient-to-r from-gray-600 to-gray-700 bg-clip-text text-transparent py-2">
+              {day}
+            </div>
+          ))}
+        </div>
 
       {/* Calendar grid */}
       <div className="grid grid-cols-7 gap-1">
@@ -184,62 +196,69 @@ const Calendar: React.FC<CalendarProps> = ({
               onMouseLeave={() => setHoveredDate(null)}
               disabled={disabled}
               className={`
-                relative h-10 w-10 text-sm font-medium rounded-lg transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1
+                relative h-10 w-10 text-sm font-medium rounded-xl transition-all duration-300 group
+                focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-1
                 ${!isCurrentMonth 
-                  ? 'text-gray-300 hover:text-gray-400 hover:bg-gray-50' 
+                  ? 'text-gray-300 hover:text-gray-400 hover:bg-gradient-to-br hover:from-gray-50 hover:to-gray-100/50' 
                   : 'text-gray-700'
                 }
                 ${disabled 
-                  ? 'cursor-not-allowed text-gray-300 bg-gray-50' 
-                  : 'cursor-pointer hover:bg-blue-50'
+                  ? 'cursor-not-allowed text-gray-300 bg-gray-50/50' 
+                  : 'cursor-pointer hover:shadow-lg hover:shadow-blue-200/30'
                 }
                 ${selected 
-                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  ? 'bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-300/40 hover:from-blue-600 hover:to-purple-700' 
                   : ''
                 }
                 ${todayDate && !selected 
-                  ? 'bg-blue-100 text-blue-600 font-semibold' 
+                  ? 'bg-gradient-to-br from-blue-100 to-cyan-100 text-blue-700 font-semibold border border-blue-200/50 shadow-sm shadow-blue-200/30' 
                   : ''
                 }
                 ${highlighted && !selected 
-                  ? 'bg-yellow-100 text-yellow-800' 
+                  ? 'bg-gradient-to-br from-yellow-100 to-orange-100 text-orange-800 border border-yellow-200/50' 
                   : ''
                 }
                 ${hovered && !selected && !disabled 
-                  ? 'bg-blue-100 text-blue-600' 
+                  ? 'bg-gradient-to-br from-blue-50 to-purple-50 text-blue-600 shadow-md shadow-blue-200/20' 
                   : ''
                 }
               `}
             >
               {day}
               
-              {/* Today indicator */}
-              {todayDate && !selected && (
-                <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full"></div>
+              {/* Glowing effects for selected date */}
+              {selected && (
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/30 to-purple-400/30 rounded-xl blur animate-pulse"></div>
               )}
               
-              {/* Highlighted indicator */}
+              {/* Today indicator with glow */}
+              {todayDate && !selected && (
+                <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full shadow-lg shadow-blue-400/50 animate-pulse"></div>
+              )}
+              
+              {/* Highlighted indicator with glow */}
               {highlighted && !selected && (
-                <div className="absolute top-1 right-1 w-2 h-2 bg-yellow-400 rounded-full"></div>
+                <div className="absolute top-1 right-1 w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse"></div>
               )}
             </button>
           );
         })}
       </div>
 
-      {/* Footer with today button */}
-      <div className="flex justify-center mt-4 pt-4 border-t border-gray-100">
-        <button
-          onClick={() => {
-            const today = new Date();
-            setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
-            onDateSelect?.(today);
-          }}
-          className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Today
-        </button>
+        {/* Footer with today button */}
+        <div className="flex justify-center mt-6 pt-4 border-t border-gradient-to-r from-transparent via-gray-200/50 to-transparent">
+          <button
+            onClick={() => {
+              const today = new Date();
+              setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+              onDateSelect?.(today);
+            }}
+            className="relative px-6 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl shadow-lg shadow-blue-300/30 hover:from-blue-600 hover:to-purple-700 hover:shadow-xl hover:shadow-blue-400/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400/50 group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className="relative">Today</span>
+          </button>
+        </div>
       </div>
     </div>
   );
