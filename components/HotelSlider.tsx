@@ -1,14 +1,12 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
+import type { Swiper as SwiperType } from 'swiper';
 import HotelCard from './HotelCard';
 
-// Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/effect-coverflow';
 
 interface Hotel {
   title: string;
@@ -22,133 +20,115 @@ interface Hotel {
 interface HotelSliderProps {
   hotels: Hotel[];
   title: string;
-  slidesPerView?: number;
-  spaceBetween?: number;
-  autoplay?: boolean;
-  effect?: 'slide' | 'coverflow';
+  subtitle?: string;
   className?: string;
 }
 
 const HotelSlider = ({
   hotels,
   title,
-  slidesPerView = 3,
-  spaceBetween = 30,
-  autoplay = true,
-  effect = 'slide',
+  subtitle,
   className = ""
 }: HotelSliderProps) => {
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [totalSlides, setTotalSlides] = useState(0);
+
+  const handlePrev = () => {
+    swiperRef.current?.slidePrev();
+  };
+
+  const handleNext = () => {
+    swiperRef.current?.slideNext();
+  };
+
+  const handleDotClick = (index: number) => {
+    swiperRef.current?.slideTo(index);
+  };
+
   return (
-    <section className={`relative py-16 ${className}`}>
-      {/* Background with blur effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-blue-50/30 to-purple-50/20 backdrop-blur-sm rounded-3xl -mx-4"></div>
+    <section className={`py-20 bg-white relative overflow-hidden ${className}`}>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full blur-3xl opacity-50 -translate-y-48 translate-x-48"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-purple-50 to-pink-50 rounded-full blur-3xl opacity-50 translate-y-48 -translate-x-48"></div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-slate-800 via-blue-900 to-purple-900 bg-clip-text text-transparent">
-            {title}
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl mb-6">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">{title}</h2>
+          {subtitle && (
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">{subtitle}</p>
+          )}
         </div>
 
-        {/* Swiper Container */}
-        <div className="relative">
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
-            spaceBetween={spaceBetween}
-            slidesPerView={1}
-            navigation={{
-              nextEl: '.swiper-button-next-custom',
-              prevEl: '.swiper-button-prev-custom',
-            }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            autoplay={autoplay ? {
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            } : false}
-            effect={effect}
-            coverflowEffect={effect === 'coverflow' ? {
-              rotate: 50,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: true,
-            } : undefined}
-            breakpoints={{
-              640: {
-                slidesPerView: Math.min(2, slidesPerView),
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: Math.min(2, slidesPerView),
-                spaceBetween: 25,
-              },
-              1024: {
-                slidesPerView: Math.min(3, slidesPerView),
-                spaceBetween: 30,
-              },
-              1280: {
-                slidesPerView: slidesPerView,
-                spaceBetween: spaceBetween,
-              },
-            }}
-            className="hotel-swiper"
-          >
-            {hotels.map((hotel, index) => (
-              <SwiperSlide key={index}>
-                <HotelCard {...hotel} className="h-full" />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+        {/* Slider */}
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={24}
+          slidesPerView={1}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            setTotalSlides(swiper.snapGrid.length);
+          }}
+          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            768: { slidesPerView: 2, spaceBetween: 24 },
+            1024: { slidesPerView: 3, spaceBetween: 24 },
+          }}
+          className="pb-4"
+        >
+          {hotels.map((hotel, index) => (
+            <SwiperSlide key={index}>
+              <HotelCard {...hotel} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-          {/* Custom Navigation Buttons */}
-          <button className="swiper-button-prev-custom absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group hover:bg-white/90 border border-white/20">
-            <svg className="w-6 h-6 text-slate-700 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {/* Custom Navigation & Pagination */}
+        <div className="flex items-center justify-center mt-10 space-x-6">
+          {/* Prev Button */}
+          <button
+            onClick={handlePrev}
+            className="w-14 h-14 rounded-full bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          
-          <button className="swiper-button-next-custom absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group hover:bg-white/90 border border-white/20">
-            <svg className="w-6 h-6 text-slate-700 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+          {/* Custom Pagination Dots */}
+          <div className="flex items-center space-x-3">
+            {Array.from({ length: totalSlides }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleDotClick(index)}
+                className={`transition-all duration-300 rounded-full ${
+                  activeIndex === index
+                    ? 'w-10 h-3 bg-gradient-to-r from-blue-600 to-indigo-600'
+                    : 'w-3 h-3 bg-slate-300 hover:bg-slate-400'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            className="w-14 h-14 rounded-full bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
       </div>
-
-      {/* Custom Styles */}
-      <style jsx global>{`
-        .hotel-swiper .swiper-pagination {
-          bottom: -50px !important;
-        }
-        
-        .hotel-swiper .swiper-pagination-bullet {
-          width: 12px;
-          height: 12px;
-          background: rgba(59, 130, 246, 0.3);
-          opacity: 1;
-          transition: all 0.3s ease;
-        }
-        
-        .hotel-swiper .swiper-pagination-bullet-active {
-          background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-          transform: scale(1.2);
-        }
-        
-        .hotel-swiper .swiper-slide {
-          height: auto;
-          display: flex;
-        }
-        
-        .hotel-swiper .swiper-slide > div {
-          width: 100%;
-        }
-      `}</style>
     </section>
   );
 };
