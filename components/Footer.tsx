@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const Footer = () => {
   return (
     <footer className="bg-slate-900 text-white">
@@ -39,21 +41,21 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Hotels</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Experiences</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Contact</a></li>
+              <li><Link href="/about" className="text-slate-300 hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/hotels" className="text-slate-300 hover:text-white transition-colors">Hotels</Link></li>
+              <li><Link href="/contact" className="text-slate-300 hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/register-hotel" className="text-slate-300 hover:text-white transition-colors">List Property</Link></li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Support</h3>
+            <h3 className="text-lg font-semibold mb-6">Account</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-slate-300 hover:text-white transition-colors">Cancellation Policy</a></li>
+              <li><Link href="/login" className="text-slate-300 hover:text-white transition-colors">Login</Link></li>
+              <li><Link href="/create-account" className="text-slate-300 hover:text-white transition-colors">Create Account</Link></li>
+              <li><Link href="/profile" className="text-slate-300 hover:text-white transition-colors">My Bookings</Link></li>
+              <li><Link href="/contact" className="text-slate-300 hover:text-white transition-colors">Help Center</Link></li>
             </ul>
           </div>
         </div>
@@ -64,9 +66,9 @@ const Footer = () => {
             © 2024 LankaStay. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors text-sm">
+            <Link href="/register-hotel" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors text-sm inline-block">
               List Your Property
-            </button>
+            </Link>
           </div>
         </div>
       </div>
